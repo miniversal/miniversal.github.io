@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Itsy-Bitsy Spider</title>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <style type="text/css">
+        #itsy { height:48px;width:48px;position:absolute;z-index:2;background:transparent; }
+        #square {
+            height: 900px;
+            width: 900px;
+            background-color: #000;
+            margin: auto;
+            position: absolute;
+            z-index:1;
+            overflow: hidden;
+            top: 10px;
+            left: 300px;
+            background:#000 url('img/web.png');
+            background-size:cover;
+        }
+        #log {
+            height: 100%;
+            width: 200px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #ccc;
+            color: #000;
+            font-size: small;
+            overflow: auto;
+        }
+        </style>        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+        <script>
+        $(document).ready(function() {
+        var centerTop = a = $('#square').height() / 2;
+        var centerLeft = $('#square').width() / 2;
+        var squareTop = $('#square').offset().top;
+        var squareLeft = $('#square').offset().left;
+        var itsy = $('#itsy');
+        var sensitivity = (2 * Math.PI) / 100;
+        var radius = ($('#square').height() / 2) - 10;
+        var degrees = 0;    
+            
+         // draw a center point
+         $('<div />').css({
+             width: '1px', height: '1px',
+             backgroundColor: '#fff',overflow:'hidden',
+             position:'absolute',
+             top: centerTop,left: centerLeft
+         }).attr('id', 'center').appendTo('#square');
+
+         $('#square').bind('mousemove', function(event) {
+             var mouseLeft = (event.pageX - squareLeft);
+             var mouseTop = (event.pageY - squareTop);
+             var correctTop = (centerTop - mouseTop);
+             var correctLeft = (mouseLeft - centerLeft);
+             var rawAngle = (180/Math.PI) * Math.atan2(correctTop,correctLeft);
+             var intAngle = parseInt(rawAngle, 10);
+             var msg = '';
+             msg += (mouseTop >= centerTop) ? ' lower ' : ' upper ';
+             msg += (mouseLeft >= centerLeft) ? ' right ' : ' left ';
+             msg += intAngle;
+             $('#log').prepend('<div>' + msg + '</div>');
+             itsy.offset({ top: parseInt((radius * Math.sin(rawAngle)+a),10)+squareTop-10 , left: parseInt((radius * Math.cos(rawAngle)+a),10)+squareLeft-10 });
+         });
+
+         /* create a dot along a radius for every degree(not necessary for the mousemove) */
+             var sensitivity = (2 * Math.PI) / 360;
+             //var radius = ($('#square').height() / 2) - 10;
+             var degrees = 0;
+             for (var t = 0; t<= (2 * Math.PI); t+=sensitivity) {
+              var x = radius * Math.cos(t) + a;
+              var y = radius * Math.sin(t) + a;
+              $('<div />').css({
+                  width: '2px', height: '2px',
+                  backgroundColor: 'cyan',overflow:'hidden',
+                  position:'absolute',top: x,left: y
+              }).attr('id', 'cursor-' + t).appendTo('#square');
+             }
+            });
+        </script>
+    </head>
+    <body>
+        <div class="app">
+            <div id="square"><img id="itsy" src="img/itsy-sav.png" /></div>
+            <div id="log"> </div>
+            
+        </div>
+    </body>
+</html>
