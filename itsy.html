@@ -69,19 +69,19 @@
          });
 
          /* create a dot along a radius for every degree(not necessary for the mousemove) */
-             var sensitivity = (2 * Math.PI) / 360;
-             //var radius = ($('#square').height() / 2) - 10;
-             var degrees = 0;
-             for (var t = 0; t<= (2 * Math.PI); t+=sensitivity) {
-              var x = radius * Math.cos(t) + a;
-              var y = radius * Math.sin(t) + a;
-              $('<div />').css({
-                  width: '2px', height: '2px',
-                  backgroundColor: 'cyan',overflow:'hidden',
-                  position:'absolute',top: x,left: y
-              }).attr('id', 'cursor-' + t).appendTo('#square');
-             }
-            });
+            //  var sensitivity = (2 * Math.PI) / 180;
+            //  //var radius = ($('#square').height() / 2) - 10;
+            //  var degrees = 0;
+            //  for (var t = 0; t<= (2 * Math.PI); t+=sensitivity) {
+            //   var x = radius * Math.cos(t) + a;
+            //   var y = radius * Math.sin(t) + a;
+            //   $('<div />').css({
+            //       width: '2px', height: '2px',
+            //       backgroundColor: 'cyan',overflow:'hidden',
+            //       position:'absolute',top: x,left: y
+            //   }).attr('id', 'cursor-' + t).appendTo('#square');
+            //  }
+            // });
         </script>
     </head>
     <body>
