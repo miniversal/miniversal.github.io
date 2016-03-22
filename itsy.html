@@ -12,7 +12,6 @@
         #orientation { position:absolute;left:201px;color:#9f9;font-size:0.75em;max-width:300px;z-index:5; }
         #itsy { height:48px;width:48px;position:absolute;z-index:2;background:transparent; }
         #square {
-            display:none;
             height: 300px;
             width: 300px;
             background-color: #000;
@@ -26,7 +25,6 @@
             background-size:cover;
         }
         #log {
-            display:none;
             height: 100%;
             width: 200px;
             position: absolute;
@@ -46,21 +44,18 @@
                 document.getElementById("doEvent").innerHTML = "DeviceOrientation";
                 // Listen for the deviceorientation event and handle the raw data
                 window.addEventListener('deviceorientation', function(eventData) {
-                  // gamma is the left-to-right tilt in degrees, where right is positive
-                  var tiltLR = eventData.gamma;
-                  
-                  // beta is the front-to-back tilt in degrees, where front is positive
-                  var tiltFB = eventData.beta;
-                  
-                  // alpha is the compass direction the device is facing in degrees
-                  var dir = eventData.alpha
-                  
-                  // call our orientation event handler
-                  deviceOrientationHandler(tiltLR, tiltFB, dir);
-                  }, false);
-              } else {
+                // gamma is the left-to-right tilt in degrees, where right is positive
+                var tiltLR = eventData.gamma;
+                // beta is the front-to-back tilt in degrees, where front is positive
+                var tiltFB = eventData.beta;
+                // alpha is the compass direction the device is facing in degrees
+                var dir = eventData.alpha
+                // call our orientation event handler
+                deviceOrientationHandler(tiltLR, tiltFB, dir);
+                }, false);
+            } else {
                 document.getElementById("doEvent").innerHTML = "Not supported on your device or browser.  Sorry."
-              }
+            }
 
             var centerTop = a = $('#square').height() / 2;
             var centerLeft = $('#square').width() / 2;
