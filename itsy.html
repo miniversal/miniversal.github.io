@@ -9,7 +9,7 @@
          <meta name="viewport" content="width=device-width, initial-scale=1">
         <style type="text/css">
         body { background:#000000; }
-        #orientation { position:absolute;left:201px;color:#9f9;font-size:0.75em;max-width:300px;z-index:9999; }
+        #orientation { position:absolute;left:201px;color:#9f9;font-size:0.75em;max-width:300px;z-index:5; }
         #itsy { height:48px;width:48px;position:absolute;z-index:2;background:transparent; }
         #square {
             height: 300px;
@@ -118,6 +118,8 @@
     </head>
     <body>
         <div class="app">
+            <div id="square"><img id="itsy" src="img/itsy-sav.png" /></div>
+            <div id="log"> </div>
             <table id="orientation">
             <tr>
               <td>Event Supported</td>
@@ -136,9 +138,6 @@
               <td id="doDirection"></td>
             </tr>
             </table>
-            <div id="square"><img id="itsy" src="img/itsy-sav.png" /></div>
-            <div id="log"> </div>
-            
         </div>
     </body>
 </html>
