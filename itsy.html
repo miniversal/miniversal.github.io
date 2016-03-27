@@ -111,6 +111,9 @@
           var correctLeft = (mouseLeft - centerLeft);
           var rawAngle = (180/Math.PI) * Math.atan2(correctTop,correctLeft);
           var intAngle = parseInt(rawAngle, 10);
+          console.log('mouseLeft:' + mouseLeft + ' mouseTop:' + mouseTop + ' correctLeft:' + correctLeft + ' correctTop:' + correctTop);
+          console.log('rawAngle:'+rawAngle);
+          console.log('intAngle:'+intAngle);
           document.getElementById("doTiltLR").innerHTML = Math.round(tiltLR);
           document.getElementById("doTiltFB").innerHTML = Math.round(tiltFB);
           document.getElementById("doDirection").innerHTML = Math.round(dir);
