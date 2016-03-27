@@ -75,18 +75,18 @@
              }).attr('id', 'center').appendTo('#square');
 
              $('#square').bind('mousemove', function(event) {
-                 var mouseLeft = (event.pageX - squareLeft);
-                 var mouseTop = (event.pageY - squareTop);
-                 var correctTop = (centerTop - mouseTop);
-                 var correctLeft = (mouseLeft - centerLeft);
-                 var rawAngle = (180/Math.PI) * Math.atan2(correctTop,correctLeft);
-                 var intAngle = parseInt(rawAngle, 10);
-                 var msg = '';
-                 msg += (mouseTop >= centerTop) ? ' lower ' : ' upper ';
-                 msg += (mouseLeft >= centerLeft) ? ' right ' : ' left ';
-                 msg += intAngle;
-                 $('#log').prepend('<div>' + msg + '</div>');
-                 itsy.offset({ top: parseInt((radius * Math.sin(rawAngle)+a),10)+squareTop-10 , left: parseInt((radius * Math.cos(rawAngle)+a),10)+squareLeft-10 });
+                var mouseLeft = (event.pageX - squareLeft);
+                var mouseTop = (event.pageY - squareTop);
+                var correctTop = (centerTop - mouseTop);
+                var correctLeft = (mouseLeft - centerLeft);
+                var rawAngle = (180/Math.PI) * Math.atan2(correctTop,correctLeft);
+                var intAngle = parseInt(rawAngle, 10);
+                var msg = '';
+                msg += (mouseTop >= centerTop) ? ' lower ' : ' upper ';
+                msg += (mouseLeft >= centerLeft) ? ' right ' : ' left ';
+                msg += intAngle;
+                $('#log').prepend('<div>' + msg + '</div>');
+                //itsy.offset({ top: parseInt((radius * Math.sin(rawAngle)+a),10)+squareTop-10 , left: parseInt((radius * Math.cos(rawAngle)+a),10)+squareLeft-10 });
              });
 
              /* create a dot along a radius for every degree(not necessary for the mousemove) */
@@ -105,11 +105,18 @@
          });
 
         function deviceOrientationHandler(tiltLR, tiltFB, dir) {
-            document.getElementById("doTiltLR").innerHTML = Math.round(tiltLR);
-            document.getElementById("doTiltFB").innerHTML = Math.round(tiltFB);
-            document.getElementById("doDirection").innerHTML = Math.round(dir);
+          var mouseLeft = (Math.round(tiltLR) - squareLeft);
+          var mouseTop = (Math.round(dir) - squareTop);
+          var correctTop = (centerTop - mouseTop);
+          var correctLeft = (mouseLeft - centerLeft);
+          var rawAngle = (180/Math.PI) * Math.atan2(correctTop,correctLeft);
+          var intAngle = parseInt(rawAngle, 10);
+          document.getElementById("doTiltLR").innerHTML = Math.round(tiltLR);
+          itsy.offset({ top: parseInt((radius * Math.sin(rawAngle)+a),10)+squareTop-10 , left: parseInt((radius * Math.cos(rawAngle)+a),10)+squareLeft-10 });
+            // document.getElementById("doTiltFB").innerHTML = Math.round(tiltFB);
+            // document.getElementById("doDirection").innerHTML = Math.round(dir);
 
-            $('body').toggleClass('left-handed', (Math.round(tiltLR)<0))
+            // $('body').toggleClass('left-handed', (Math.round(tiltLR)<0))
         }
         </script>
     </head>
