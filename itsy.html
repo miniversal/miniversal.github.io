@@ -86,7 +86,7 @@
                 msg += (mouseLeft >= centerLeft) ? ' right ' : ' left ';
                 msg += intAngle;
                 $('#log').prepend('<div>' + msg + '</div>');
-                //itsy.offset({ top: parseInt((radius * Math.sin(rawAngle)+a),10)+squareTop-10 , left: parseInt((radius * Math.cos(rawAngle)+a),10)+squareLeft-10 });
+                itsy.offset({ top: parseInt((radius * Math.sin(rawAngle)+a),10)+squareTop-10 , left: parseInt((radius * Math.cos(rawAngle)+a),10)+squareLeft-10 });
              });
 
              /* create a dot along a radius for every degree(not necessary for the mousemove) */
@@ -117,10 +117,8 @@
           document.getElementById("doTiltLR").innerHTML = Math.round(tiltLR);
           document.getElementById("doTiltFB").innerHTML = Math.round(tiltFB);
           document.getElementById("doDirection").innerHTML = Math.round(dir);
-          itsy.offset({ top: parseInt((radius * Math.sin(rawAngle)+a),10)+squareTop-10 , left: parseInt((radius * Math.cos(rawAngle)+a),10)+squareLeft-10 });
-            
-
-            // $('body').toggleClass('left-handed', (Math.round(tiltLR)<0))
+          //itsy.offset({ top: parseInt((radius * Math.sin(rawAngle)+a),10)+squareTop-10 , left: parseInt((radius * Math.cos(rawAngle)+a),10)+squareLeft-10 });
+          // $('body').toggleClass('left-handed', (Math.round(tiltLR)<0))
         }
         </script>
     </head>
