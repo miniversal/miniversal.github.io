@@ -125,8 +125,8 @@
           if(tiltFB <-90){tiltFB = -90;}
           tiltFB += 90;
           tiltLR += 90;
-          itsy.style.top = (squareTop*titleFB/180 - itsyHalfHeight) + 'px';
-          itsy.style.left = (squareLeft*tiltLR/180 - itsyHalfWidth) + 'px';
+          itsy.style.top = ($('#square').offset().top*tiltFB/180 - 10) + 'px';
+          itsy.style.left = ($('#square').offset().left*tiltLR/180 - 10) + 'px';
         }
         </script>
     </head>
