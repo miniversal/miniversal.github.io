@@ -37,43 +37,7 @@
         }
         </style>        
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
-
-    </head>
-    <body>
-        <div class="app">
-            <div id="square"><img id="itsy" src="img/itsy-sav.png" /></div>
-            <div id="log"> </div>
-            <table id="orientation">
-            <tr>
-              <td>Event Supported</td>
-              <td id="doEvent"></td>
-            </tr>
-            <tr>
-              <td>Tilt Left/Right [gamma]</td>
-              <td id="doTiltLR"></td>
-            </tr>
-            <tr>
-              <td>Tilt Front/Back [beta]</td>
-              <td id="doTiltFB"></td>
-            </tr>
-            <tr>
-              <td>Direction [alpha]</td>
-              <td id="doDirection"></td>
-            </tr>
-            </table>
-        </div>
         <script>
-        var centerTop = a = $('#square').height() / 2;
-        var centerLeft = $('#square').width() / 2;
-        var squareTop = $('#square').offset().top;
-        var squareLeft = $('#square').offset().left;
-        var itsy = $('#itsy');
-        var itsyHalfWidth = itsy.width() / 2;
-        var itsyHalfHeight = itsy.height() / 2;
-        var sensitivity = (2 * Math.PI) / 120;
-        var radius = ($('#square').height() / 2) - 10;
-        var degrees = 0;
-            
         $(document).ready(function() {
             //Setup device orientation handler
             if (window.DeviceOrientationEvent) {
@@ -91,7 +55,18 @@
                 }, false);
             } else {
                 document.getElementById("doEvent").innerHTML = "Not supported on your device or browser.  Sorry."
-            }    
+            }
+
+            var centerTop = a = $('#square').height() / 2;
+            var centerLeft = $('#square').width() / 2;
+            var squareTop = $('#square').offset().top;
+            var squareLeft = $('#square').offset().left;
+            var itsy = $('#itsy');
+            var itsyHalfWidth = itsy.width() / 2;
+            var itsyHalfHeight = itsy.height() / 2;
+            var sensitivity = (2 * Math.PI) / 120;
+            var radius = ($('#square').height() / 2) - 10;
+            var degrees = 0;    
                 
              // draw a center point
              $('<div />').css({
@@ -154,5 +129,29 @@
           itsy.style.left = (squareLeft*tiltLR/180 - itsyHalfWidth) + 'px';
         }
         </script>
+    </head>
+    <body>
+        <div class="app">
+            <div id="square"><img id="itsy" src="img/itsy-sav.png" /></div>
+            <div id="log"> </div>
+            <table id="orientation">
+            <tr>
+              <td>Event Supported</td>
+              <td id="doEvent"></td>
+            </tr>
+            <tr>
+              <td>Tilt Left/Right [gamma]</td>
+              <td id="doTiltLR"></td>
+            </tr>
+            <tr>
+              <td>Tilt Front/Back [beta]</td>
+              <td id="doTiltFB"></td>
+            </tr>
+            <tr>
+              <td>Direction [alpha]</td>
+              <td id="doDirection"></td>
+            </tr>
+            </table>
+        </div>
     </body>
 </html>
