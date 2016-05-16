@@ -115,9 +115,9 @@
                 bricks.enableBody = true;
                 bricks.physicsBodyType = Phaser.Physics.ARCADE;
 
-                paddleL = game.add.sprite(40, game.world.centerY, 'paddleL');
+                paddleL = game.add.sprite(75, game.world.centerY, 'paddleL');
                 paddleL.anchor.setTo(0.5, 0.5);
-                paddleR = game.add.sprite(game.width-40, game.world.centerY, 'paddleR');
+                paddleR = game.add.sprite(game.width-75, game.world.centerY, 'paddleR');
                 paddleR.anchor.setTo(0.5, 0.5);
 
 
@@ -163,14 +163,40 @@
             function update () {
                 //  Fun, but a little sea-sick inducing :) Uncomment if you like!
                 // s.tilePosition.x += (game.input.speed.y / 2);
-                paddleL.y = game.input.y;
-                paddleR.y = game.input.y;
-
-                if (paddleL.y < 24) {
-                    paddleL.y = 24;
-                } else if (paddleL.y > game.width - 24) {
-                    paddleL.y = game.width - 24;
+                var LEFT = 1;
+                var RIGHT = 0;
+                // if only 1 player is touching, they control both paddles
+//                 if(game.input.pointer1.isDown && !game.input.pointer2.isDown){
+//                     paddleL.y = game.input.pointer1.y;
+//                     paddleR.y = game.input.pointer1.y;
+//                 }else{
+//                     // Check for which pointer is which
+// //                    Math.floor(e.x/(this.game.width/2)) === LEFT
+//                     paddleL.y = game.input.pointer1.y;
+//                     paddleR.y = game.input.pointer2.y;
+//                 }
+                //Mouse
+                if(!game.input.pointer1.isDown || !game.input.pointer2.isDown){
+                    paddleL.y = game.input.y;
+                    paddleR.y = game.input.y;
                 }
+                //1 player is touching 
+                if(game.input.pointer1.isDown && !game.input.pointer2.isDown){
+                    paddleL.y = game.input.pointer1.y;
+                    paddleR.y = game.input.pointer1.y;
+                }
+                //input 2 is still touching after input 1 has released
+                if(!game.input.pointer1.isDown && game.input.pointer2.isDown){
+                    paddleL.y = game.input.pointer2.y;
+                    paddleR.y = game.input.pointer2.y;
+                }
+                //both players are touching
+                if(game.input.pointer1.isDown && game.input.pointer2.isDown){
+                    paddleL.y = game.input.pointer1.y;
+                    paddleR.y = game.input.pointer2.y;
+                }
+
+
 
                 if (ballOnpaddle) {
                     ball.body.y = paddleL.y;
