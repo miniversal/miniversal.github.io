@@ -17,7 +17,7 @@
 
             function preload() {
                 game.load.atlas('breakout', 'img/breakout.png', 'js/breakout.json');
-                game.load.image('starfield', 'img/starfield.jpg');
+                game.load.image('background', 'img/honeycomb-tile.png');
                 game.load.image('paddleL', 'img/paddle.png');
                 game.load.image('paddleR', 'img/paddle.png');
                 game.load.image('trail', 'img/trail.png');
@@ -27,6 +27,8 @@
                 game.load.image('brick_3', 'img/neon/brick3.png');
                 game.load.image('brick_4', 'img/neon/brick4.png');
                 game.load.image('brick_5', 'img/neon/brick5.png');
+                game.load.audio('snd_paddle', 'audio/paddle-hit.wav')
+                game.load.audio('snd_brick', 'audio/brick-hit.wav')
             }
             var spawnData = '{' +
                             '"0":  {"x":512,"y":480,"occupied":false,"idx":0},' +
@@ -104,13 +106,18 @@
                 game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
                 game.scale.pageAlignHorizontally = true;
                 game.scale.pageAlignVertically = true;
+                game.scale.forceLandscape = true;
 
 
                 //  We check bounds collisions against all walls other than the bottom one
                 game.physics.arcade.checkCollision.left = false;
                 game.physics.arcade.checkCollision.right = false;
 
-               // s = game.add.tileSprite(0, 0, 800, 600, 'starfield');
+                //s = game.add.tileSprite(0, 0, game.width, game.height, 'background');
+                //s.scale.y = 0.25;
+
+                snd_paddle = game.add.audio('snd_paddle');
+                snd_brick = game.add.audio('snd_brick');                
 
                 bricks = game.add.group();
                 bricks.enableBody = true;
@@ -132,6 +139,7 @@
                 paddleR.body.bounce.set(1);
                 paddleR.body.immovable = true;
 
+                //Ball tracer
                 emitter = game.add.emitter(game.world.centerX, game.world.centerY, 300);
                 emitter.makeParticles( [ 'trail', 'trail', 'trail' ] );
                 emitter.gravity = 50;
@@ -162,20 +170,11 @@
             }
 
             function update () {
-                //  Fun, but a little sea-sick inducing :) Uncomment if you like!
+                //  Fun, but a little sea-sick inducing 
                 // s.tilePosition.x += (game.input.speed.y / 2);
                 var LEFT = 1;
                 var RIGHT = 0;
-                // if only 1 player is touching, they control both paddles
-//                 if(game.input.pointer1.isDown && !game.input.pointer2.isDown){
-//                     paddleL.y = game.input.pointer1.y;
-//                     paddleR.y = game.input.pointer1.y;
-//                 }else{
-//                     // Check for which pointer is which
-// //                    Math.floor(e.x/(this.game.width/2)) === LEFT
-//                     paddleL.y = game.input.pointer1.y;
-//                     paddleR.y = game.input.pointer2.y;
-//                 }
+
                 //Mouse
                 if(!game.input.pointer1.isDown || !game.input.pointer2.isDown){
                     paddleL.y = game.input.y;
@@ -273,7 +272,7 @@
 
             function ballHitBrick (_ball, _brick) {
                 _brick.kill();
-
+                snd_brick.play();
                 //Change the ball behavior depending on which brick type was struck
                 if (_brick.key == "brick_1"){
                     _ball.body.velocity.y = _ball.body.velocity.y*-1; 
@@ -305,6 +304,7 @@
 
             function ballHitpaddle (_ball, _paddle) {
                 var english = 0;
+                paddleSND.play();
                 if (_ball.y < _paddle.y) {
                     english = _paddle.y - _ball.y;
                     _ball.body.velocity.y = (-10 * english);
