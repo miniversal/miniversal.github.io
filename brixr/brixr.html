@@ -304,7 +304,7 @@
 
             function ballHitpaddle (_ball, _paddle) {
                 var english = 0;
-                paddleSND.play();
+                snd_paddle.play();
                 if (_ball.y < _paddle.y) {
                     english = _paddle.y - _ball.y;
                     _ball.body.velocity.y = (-10 * english);
