@@ -1,0 +1,217 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<head>
+	<title>Radial Menu</title>
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+	<style type="text/css">
+	body {width:100%;height:100%;}
+  .main { font-size:0.75em;font-weight:600;position:static;bottom:1em; }
+	/* general styles for button & circular menu */	
+	.ctrl { position: relative;font: 1.5em/1.13 Verdana, sans-serif;transition: .5s; }
+	img { height:1em; }
+
+div.fixed-util { position:fixed; top:20em; right:0.1em; }
+body.left-handed div.fixed-util { left:0.1em; }
+body.left-handed .button { border-radius:0px 50% 50% 0px; }
+
+
+/* generic styles for links */
+a.ctrl, .ctrl a { display: block;
+    opacity: .56;    background: #c9c9c9;
+    color: #7a8092;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 -1px dimgrey;
+}
+a.ctrl:hover, .ctrl a:hover, a.ctrl:focus, .ctrl a:focus { opacity: 1; }
+a.ctrl:focus, .ctrl a:focus { outline: none; }
+.button {
+    z-index: 2;
+    margin: -2em 0;
+    padding:1.5em 1em;
+    width: 2.25em; height:1em;
+    border-radius:50% 0 0 50%;
+    box-shadow: 0 0 3px 1px white;
+}
+/* circular menu */
+.tip {
+    z-index: 1;
+    margin: -5em;
+    width: 10em; height: 10em;
+    transform: scale(.001);
+    -ms-transform: scale(.001);
+    list-style: none;
+    opacity: 0;
+}
+/* the ends of the menu 
+.tip:before, .tip:after {
+    position: absolute;
+    top: 34.3%;
+    width: .5em; height: 14%;
+    opacity: .56;
+    background: #c9c9c9;
+    content: '';
+}
+.tip:before {
+    left: 5.4%;
+    border-radius: .25em 0 0 .25em;
+    box-shadow: -1px 0 1px dimgrey, 
+                inset 1px 0 1px white, inset -1px 0 1px grey, 
+            inset 0 1px 1px white, inset 0 -1px 1px white;
+    transform: rotate(-75deg);
+}
+.tip:after {
+    right: 5.4%;
+    border-radius: 0 .25em .25em 0;
+    box-shadow: 1px 0 1px dimgrey, 
+                inset -1px 0 1px white, inset 1px 0 1px grey,
+            inset 0 1px 1px white, inset 0 -1px 1px white;
+    transform: rotate(75deg);
+}*/
+.button:focus + .tip {
+    transform: scale(3);
+    opacity: 1;
+}
+/* slices of the circular menu */
+.slice {
+    overflow: hidden;
+    position: absolute;
+    /**outline: dotted 1px yellow;/**/
+    width: 50%; height: 50%;
+    transform-origin: 100% 100%;
+}
+/* 
+ * rotate each slice at the right angle = (A/2)° + (k - (n+1)/2)*A°
+ * where A is the angle of 1 slice (30° in this case)
+ * k is the number of the slice (in {1,2,3,4,5} here)
+ * and n is the number of slices (5 in this case)
+ * formula works for odd number of slices (n odd)
+ * for even number of slices (n even) the rotation angle is (k - n/2)*A°
+ * 
+ * after rotating, skew on Y by 90°-A°; here A° = the angle for 1 slice = 30° 
+ */
+.slice:first-child { transform: rotate(-135deg) skewY(60deg); }
+.slice:nth-child(2) { transform: rotate(-105deg) skewY(60deg); }
+.slice:nth-child(3) { transform: rotate(-75deg) skewY(60deg); }
+.slice:nth-child(4) { transform: rotate(-45deg) skewY(60deg); }
+.slice:last-child { transform: rotate(-15deg) skewY(60deg); }
+/* covers for the inner part of the links so there's no hover trigger between
+   star button & menu links; give them a red background to see them */
+.slice:after {
+    position: absolute;
+    top: 32%; left: 32%;
+    width: 136%; height: 136%;
+    border-radius: 50%;
+    /* "unskew" = skew by minus the same angle by which parent was skewed */
+    transform: skewY(-60deg);
+    content: '';
+}
+/* menu links */
+.slice a {
+    width: 200%; height: 200%;
+    border-radius: 50%;
+    box-shadow: 0 0 3px dimgrey, inset 0 0 4px white;
+    /* "unskew" & rotate by -A°/2 */
+    transform: skewY(-60deg) rotate(-15deg);
+    background: linear-gradient(75deg, 
+        transparent 50%, grey 50%, transparent 54%) no-repeat 36.5% 0,
+            linear-gradient(-75deg, 
+        transparent 50%, grey 50%, transparent 54%) no-repeat 63.5% 0,
+        radial-gradient(rgba(127,127,127,0) 49%, 
+                    rgba(255,255,255,.7) 51%, #c9c9c9 52%);
+    background-size: 15% 15%, 15% 15%, cover;
+    line-height: 1.4;
+}
+/* arrow for central link */
+.slice:nth-child(3) a:after {
+    position: absolute;
+    top: 13%; left: 50%;
+    margin: -.25em;
+    width: .5em; height: .5em;
+    box-shadow: 2px 2px 2px white;
+    transform: rotate(45deg);
+    background: linear-gradient(-45deg, #c9c9c9 50%, transparent 50%);
+    content: '';
+}
+		
+	</style>
+</head>
+<body>
+	<div class="fixed-util">
+	<a id="thumbtn" class='button ctrl' href='#' tabindex='1'>+</a>
+	<ul class='tip ctrl'>
+	    <li class='slice'><a href='#'><img src="imgs/dashboard-icon.svg" alt="Dashboard" /></a></li>
+	    <li class='slice'><a href='#'><img src="imgs/create-quote-icon.svg" alt="Create A New Quote" /></a></li>
+	    <li class='slice'><a href='#'><img alt="Email Internet Sales" src="imgs/email-icon.svg"/></a></li>
+	    <li class='slice'><a href='#'><img src="imgs/chat-icon.svg" alt="Chat With Internet Sales" /></a></li>
+	    <li class='slice'><a href='#'><img alt="Logout" src="imgs/logout-icon.svg" /></a></li>
+	</ul>
+	</div>
+	<div class="main">
+      <h2>Device Orientation</h2>
+      <table>
+        <tr>
+          <td>Event Supported</td>
+          <td id="doEvent"></td>
+        </tr>
+        <tr>
+          <td>Tilt Left/Right [gamma]</td>
+          <td id="doTiltLR"></td>
+        </tr>
+        <tr>
+          <td>Tilt Front/Back [beta]</td>
+          <td id="doTiltFB"></td>
+        </tr>
+        <tr>
+          <td>Direction [alpha]</td>
+          <td id="doDirection"></td>
+        </tr>
+      </table>
+  </div>
+  
+  <div class="container" style="-webkit-perspective: 300; perspective: 300;">
+   
+  </div>
+  
+  <script type="text/javascript">
+    init();
+    var count = 0;
+    
+    function init() {
+      if (window.DeviceOrientationEvent) {
+        document.getElementById("doEvent").innerHTML = "DeviceOrientation";
+        // Listen for the deviceorientation event and handle the raw data
+        window.addEventListener('deviceorientation', function(eventData) {
+          // gamma is the left-to-right tilt in degrees, where right is positive
+          var tiltLR = eventData.gamma;
+          
+          // beta is the front-to-back tilt in degrees, where front is positive
+          var tiltFB = eventData.beta;
+          
+          // alpha is the compass direction the device is facing in degrees
+          var dir = eventData.alpha
+          
+          // call our orientation event handler
+          deviceOrientationHandler(tiltLR, tiltFB, dir);
+          }, false);
+      } else {
+        document.getElementById("doEvent").innerHTML = "Not supported on your device or browser.  Sorry."
+      }
+    }
+  
+    function deviceOrientationHandler(tiltLR, tiltFB, dir) {
+      document.getElementById("doTiltLR").innerHTML = Math.round(tiltLR);
+      document.getElementById("doTiltFB").innerHTML = Math.round(tiltFB);
+      document.getElementById("doDirection").innerHTML = Math.round(dir);
+      
+      $('body').toggleClass('left-handed', (Math.round(tiltLR)<0))
+    }
+</script>
+  
+</body>
+</html>
